@@ -1,13 +1,27 @@
 import React from 'react';
 import {useForm} from "react-hook-form";
 import './SignIn.css'
+import axios from "axios";
+// import AuthService from "../services/Auth.service"
 
 const SignIn = () => {
     const {register, handleSubmit, formState: {errors}} = useForm();
-    const onSubmit = data => console.log('hola', data);
+    const API_URL = "http://localhost:8000/users";
+
+    const postData = async (data) => {
+        try {
+            await axios.post(API_URL, data);
+        } catch (err) {
+            console.error(err);
+            throw new Error(`HTTP error status: ${err}`)
+        }
+    }
+
+    const onSubmit = (data) => {
+        postData(data).then()
+    }
 
     return (
-
         <div className="card col-md-6 offset-md-3">
             <div className="card-body col-md-10 offset-md-1">
 
@@ -24,7 +38,7 @@ const SignIn = () => {
                                })}/>
                         <p className="fieldError">{errors.email && errors.email.type === "required" &&
                         <span>Required field</span>}</p>
-                        <p>{errors.email && errors.email.type === "pattern" &&
+                        <p className="fieldError">{errors.email && errors.email.type === "pattern" &&
                         <span>Not a valid email</span>}</p>
                     </div>
 
@@ -33,11 +47,11 @@ const SignIn = () => {
                         <input className="form-control"
                                type="password"
                                {...register("password", {required: true, minLength: 6, maxLength: 20})}/>
-                        <p>{errors.password && errors.password.type === "required" &&
+                        <p className="fieldError">{errors.password && errors.password.type === "required" &&
                         <span>Required field</span>}</p>
-                        <p>{errors.password && errors.password.type === "minLength" &&
-                        <span>Min 6 chars</span>}</p>
-                        <p>{errors.password && errors.password.type === "maxLength" &&
+                        <p className="fieldError">{errors.password && errors.password.type === "minLength" &&
+                        <span className="fieldError">Min 6 chars</span>}</p>
+                        <p className="fieldError">{errors.password && errors.password.type === "maxLength" &&
                         <span>Max 20 chars</span>}</p>
                     </div>
 

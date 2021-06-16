@@ -2,6 +2,6 @@
     background-color: #e2e2e2;
 }
 
-.fieldError {
+.fieldError > span{
     color: red;
 }
