@@ -1,24 +1,13 @@
 import React from 'react';
 import {useForm} from "react-hook-form";
-import './SignIn.css'
-import axios from "axios";
-// import AuthService from "../services/Auth.service"
+import '../styles/SignIn.css'
+import AuthService from "../services/Auth.service"
 
 const SignIn = () => {
     const {register, handleSubmit, formState: {errors}} = useForm();
-    const API_URL = "http://localhost:8000/users";
-
-    const postData = async (data) => {
-        try {
-            await axios.post(API_URL, data);
-        } catch (err) {
-            console.error(err);
-            throw new Error(`HTTP error status: ${err}`)
-        }
-    }
 
     const onSubmit = (data) => {
-        postData(data).then()
+        AuthService.login(data).then()
     }
 
     return (
