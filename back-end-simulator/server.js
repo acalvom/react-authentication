@@ -16,28 +16,29 @@ server.use(bodyParser.urlencoded({extended: true}))
 server.use(bodyParser.json())
 server.use(jsonServer.defaults());
 
-// Create a token from a payload
 function createToken(payload) {
     return jwt.sign(payload, SECRET_KEY, {expiresIn})
 }
 
-// Check if the user exists in database
 function isAuthenticated({email, password}) {
     return userDB.users.findIndex(user => user.email === email && user.password === password) !== -1
+}
+
+function getRole(email) {
+    return userDB.users.find(user => user.email === email).role;
 }
 
 server.post('/signin', (req, res) => {
     const {email, password} = req.body
     console.log(email, password);
-    let a = isAuthenticated({email, password})
-    console.log(a);
 
     if (!isAuthenticated({email, password})) {
         const status = 401
         const message = 'Incorrect email or password'
         res.status(status).json({status, message})
     } else {
-        const access_token = createToken({email, password})
+        const role = getRole(email);
+        const access_token = createToken({email, password, role})
         console.log("Access Token:" + access_token);
         res.status(200).json({access_token})
     }
