@@ -32,19 +32,19 @@ server.post('/signin', (req, res) => {
     let a = isAuthenticated({email, password})
     console.log(a);
 
-    // if (isAuthenticated({email, password}) === false) {
-    //     const status = 401
-    //     const message = 'Incorrect email or password'
-    //     res.status(status).json({status, message})
-    //     return
-    // }
-    const access_token = createToken({email, password})
-    console.log("Access Token:" + access_token);
-    res.status(200).json({access_token})
+    if (!isAuthenticated({email, password})) {
+        const status = 401
+        const message = 'Incorrect email or password'
+        res.status(status).json({status, message})
+    } else {
+        const access_token = createToken({email, password})
+        console.log("Access Token:" + access_token);
+        res.status(200).json({access_token})
+    }
+
 })
 
 server.listen(8000, () => {
-    console.log('Run Auth API Server')
     console.log("Node Server at http://localhost:" + 8000);
     console.log("Hour: " + Date());
 })
