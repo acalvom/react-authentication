@@ -2,16 +2,19 @@ import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import '../styles/SignIn.css'
 import AuthService from "../services/Auth.service"
+import {useCookies} from "react-cookie";
 
 const SignIn = () => {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [fetchError, setFetchError] = useState(null);
+    const [cookies, setCookie, removeCookie] = useCookies(["token"]);
 
     const onSubmit = (data) => {
         AuthService.login(data)
             .then((res) => {
                 console.log('res ', res)
                 setFetchError(null);
+                setCookie('token', res.data.access_token)
             })
             .catch((err) => {
                 setFetchError(err.response.data.message);
