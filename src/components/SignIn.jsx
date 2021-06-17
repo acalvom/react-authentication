@@ -1,13 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import '../styles/SignIn.css'
 import AuthService from "../services/Auth.service"
 
 const SignIn = () => {
     const {register, handleSubmit, formState: {errors}} = useForm();
+    const [fetchError, setFetchError] = useState(null);
 
     const onSubmit = (data) => {
-        AuthService.login(data).then()
+        AuthService.login(data)
+            .then((res) => {
+                console.log('res ', res)
+                setFetchError(null);
+            })
+            .catch((err) => {
+                setFetchError(err.response.data.message);
+            })
     }
 
     return (
@@ -43,7 +51,7 @@ const SignIn = () => {
                         <p className="fieldError">{errors.password && errors.password.type === "maxLength" &&
                         <span>Max 20 chars</span>}</p>
                     </div>
-
+                    <p className="fieldError">{fetchError && <span>{fetchError}</span>}</p>
                     <div className="col-md-4">
                         <button className="w-100 btn btn-md btn-dark" type="submit">Sign in</button>
                     </div>

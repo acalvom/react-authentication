@@ -599,6 +599,18 @@
       "email": "Virginie.Auer@yahoo.com",
       "password": "Fg1fTFln68lm563",
       "role": "admin"
+    },
+    {
+      "id": 101,
+      "email": "a@a",
+      "password": "aaaaaa",
+      "role": "admin"
+    },
+    {
+      "id": 102,
+      "email": "b@b",
+      "password": "bbbbbb",
+      "role": "user"
     }
   ]
 }

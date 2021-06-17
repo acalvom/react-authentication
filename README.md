@@ -1,3 +1,9 @@
+Para generar la base de datos falsa 
+- ir al directorio back-end-simulator y ejecutar: node generateData.js > db.json
+- arrancar el json server: json-server --watch back-end-simulator/db.json --port 7000
+- arrancar con: nodemon server.js
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
