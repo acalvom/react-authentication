@@ -16,21 +16,21 @@ const Navbar = () => {
                             <Link to="/" className="nav-link active">Home</Link>
                         </li>
                         <li className="nav-item active">
-                            <a className="nav-link" aria-current="page" href="#">Admin Board</a>
+                            <Link to="/" className="nav-link">Admin Board</Link>
                         </li>
                         <li className="nav-item active">
-                            <a className="nav-link" aria-current="page" href="#">User Board</a>
+                            <Link to="/" className="nav-link">User Board</Link>
                         </li>
                     </ul>
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item active">
-                            <a className="nav-link" aria-current="page" href="#">Sign Up</a>
+                            <Link to="/" className="nav-link">Sign Up</Link>
                         </li>
                         <li className="nav-item active">
                             <Link to="/signin" className="nav-link">Sign In</Link>
                         </li>
                         <li className="nav-item active">
-                            <a className="nav-link" aria-current="page" href="#">Log Out</a>
+                            <Link to="/" className="nav-link">Log Out</Link>
                         </li>
                     </ul>
                 </div>
