@@ -1,22 +1,33 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from "react-hook-form";
 import '../styles/SignIn.css'
 import AuthService from "../services/Auth.service"
+import {useHistory} from "react-router-dom";
 
 const SignIn = () => {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [fetchError, setFetchError] = useState(null);
+    const [signInData, setSignInData] = useState(null);
+    const history = useHistory();
+
+    const signIn = async (data) => {
+        try {
+            const res = await AuthService.signIn(data)
+            setSignInData(res.data);
+            setFetchError(null);
+            history.push('/');
+        } catch (err) {
+            setFetchError(err.response.data.message);
+        }
+    }
 
     const onSubmit = (data) => {
-        AuthService.login(data)
-            .then((res) => {
-                console.log('res ', res)
-                setFetchError(null);
-            })
-            .catch((err) => {
-                setFetchError(err.response.data.message);
-            })
+        signIn(data).then()
     }
+
+    useEffect(() => {
+        console.log(signInData)
+    }, [signInData])
 
     return (
         <div className="card col-md-6 offset-md-3">
