@@ -39,10 +39,11 @@ server.post('/signin', (req, res) => {
         res.status(status).json({status, message})
     } else {
         const role = getRole(email);
-        const access_token = createToken({email, password, role})
+        const access_token = createToken({email, password})
         console.log("Access Token:" + access_token);
         res.cookie('token', access_token, {httpOnly: true});
-        res.status(200).json({access_token})
+        res.cookie('role', role, {httpOnly: true});
+        res.status(200).json({access_token, role})
     }
 
 })
