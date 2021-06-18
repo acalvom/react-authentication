@@ -12,14 +12,13 @@ function App() {
     const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
-        let role = AuthService.getCurrentUser();
-        setUserRole(role)
-        console.log(userRole)
+        setUserRole(AuthService.getCurrentUser());
+        console.log(cookies, userRole)
     }, [cookies, userRole])
 
     return (
         <Router>
-            <Navbar/>
+            <Navbar role={userRole}/>
             <div className="container my-3">
                 <Switch>
                     <Route exact path="/"><Home/></Route>
