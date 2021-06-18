@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const userDB = require('./db.json');
 
-const server = jsonServer.create()
+const server = jsonServer.create();
+const port = 8000;
 
 server.use(jsonServer.defaults());
 const SECRET_KEY = '123456789'
@@ -40,13 +41,14 @@ server.post('/signin', (req, res) => {
         const role = getRole(email);
         const access_token = createToken({email, password, role})
         console.log("Access Token:" + access_token);
+        res.cookie('token', access_token, {httpOnly: true});
         res.status(200).json({access_token})
     }
 
 })
 
-server.listen(8000, () => {
-    console.log("Node Server at http://localhost:" + 8000);
+server.listen(port, () => {
+    console.log("Node Server at http://localhost:" + port);
     console.log("Hour: " + Date());
 })
 
