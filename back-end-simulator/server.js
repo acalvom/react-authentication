@@ -31,7 +31,6 @@ function getRole(email) {
 
 server.post('/signin', (req, res) => {
     const {email, password} = req.body
-    console.log(email, password);
 
     if (!isAuthenticated({email, password})) {
         const status = 401
@@ -40,9 +39,8 @@ server.post('/signin', (req, res) => {
     } else {
         const role = getRole(email);
         const access_token = createToken({email, password})
-        console.log("Access Token:" + access_token);
         res.cookie('token', access_token, {httpOnly: true, sameSite: 'strict'});
-        res.cookie('role', role, {httpOnly: true, sameSite: 'strict'});
+        res.cookie('role', role,{sameSite: 'strict'});
         res.status(200).json({access_token, role})
     }
 
