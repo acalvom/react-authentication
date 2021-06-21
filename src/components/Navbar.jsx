@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 
 const Navbar = (props) => {
     const role = props.role;
-    const isLogged = props.isLogged;
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,12 +29,12 @@ const Navbar = (props) => {
                         }
                     </ul>
                     <ul className="navbar-nav ms-auto">
-                        {!isLogged && (<li className="nav-item active">
+                        {!role && (<li className="nav-item active">
                             <Link to="/signin" className="nav-link">Sign In</Link>
                         </li>)
                         }
-                        {isLogged && (<li className="nav-item active">
-                            <Link to="/" className="nav-link">Log Out</Link>
+                        {role && (<li className="nav-item active">
+                            <Link to="/logout" className="nav-link">Log Out</Link>
                         </li>)
                         }
                     </ul>
