@@ -7,22 +7,23 @@ import SignIn from "./components/SignIn";
 import AdminBoard from "./components/AdminBoard";
 import AuthService from "./services/Auth.service";
 import UserBoard from "./components/UserBoard";
+import {useCookies} from "react-cookie";
 
 function App() {
-    const [isLogged, setIsLogged] = useState(false);
     const [loggedUser, setLoggedUser] = useState(null);
+    const [cookies, setCookie] = useCookies(["loggedUser"]);
 
     const checkLogin = (isLogged) => {
-        setIsLogged(isLogged);
+        setCookie("isLogged", isLogged, {path: "/"});
     }
 
     useEffect(() => {
         setLoggedUser(AuthService.getCurrentUser());
-    }, [loggedUser])
+    }, [loggedUser, cookies.isLogged])
 
     return (
         <Router>
-            <Navbar role={loggedUser && loggedUser.role} isLogged={isLogged}/>
+            <Navbar role={loggedUser && loggedUser.role} isLogged={cookies.isLogged}/>
             <div className="container my-3">
                 <Switch>
                     <Route exact path="/"><Home/></Route>
