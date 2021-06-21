@@ -25,7 +25,7 @@ const Navbar = (props) => {
                         }
                         {role === 'user' && (
                             <li className="nav-item active">
-                                <Link to="/" className="nav-link">User Board</Link>
+                                <Link to="/userboard" className="nav-link">User Board</Link>
                             </li>)
                         }
                     </ul>

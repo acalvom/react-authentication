@@ -6,6 +6,7 @@ import NotFound from "./components/NotFound";
 import SignIn from "./components/SignIn";
 import AdminBoard from "./components/AdminBoard";
 import AuthService from "./services/Auth.service";
+import UserBoard from "./components/UserBoard";
 
 function App() {
     const [isLogged, setIsLogged] = useState(false);
@@ -26,6 +27,7 @@ function App() {
                 <Switch>
                     <Route exact path="/"><Home/></Route>
                     <Route path="/adminboard"><AdminBoard loggedUser={loggedUser}/></Route>
+                    <Route path="/userboard"><UserBoard loggedUser={loggedUser}/></Route>
                     <Route path="/signin"><SignIn checkLogin={checkLogin}/></Route>
                     <Route path="/*"><NotFound/></Route>
                 </Switch>
