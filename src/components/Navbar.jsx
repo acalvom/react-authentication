@@ -20,7 +20,7 @@ const Navbar = (props) => {
                         </li>
                         {role === 'admin' && (
                             <li className="nav-item active">
-                                <Link to="/" className="nav-link">Admin Board</Link>
+                                <Link to="/adminboard" className="nav-link">Admin Board</Link>
                             </li>)
                         }
                         {role === 'user' && (
