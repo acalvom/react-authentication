@@ -10,6 +10,7 @@ const signIn = async (data) => {
 
 const logOut = () => {
     cookies.remove("loggedUser", {sameSite: 'strict'});
+    cookies.remove("token", {sameSite: 'strict'});
 };
 
 const getCurrentUser = () => {
