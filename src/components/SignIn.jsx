@@ -4,16 +4,16 @@ import '../styles/SignIn.css'
 import AuthService from "../services/Auth.service"
 import {useHistory} from "react-router-dom";
 
-const SignIn = () => {
+const SignIn = (props) => {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [fetchError, setFetchError] = useState(null);
     const history = useHistory();
 
     const signIn = async (data) => {
         try {
-            await AuthService.signIn(data)
+            const res = await AuthService.signIn(data);
             setFetchError(null);
-            // history.go(0);
+            props.checkLogin(true, res.data);
             history.push('/');
         } catch (err) {
             setFetchError(err.response.data.message);
@@ -21,7 +21,7 @@ const SignIn = () => {
     }
 
     const onSubmit = (data) => {
-        signIn(data).then()
+        signIn(data).then();
     }
 
     return (

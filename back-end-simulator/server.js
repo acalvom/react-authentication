@@ -40,8 +40,8 @@ server.post('/signin', (req, res) => {
         const role = getRole(email);
         const access_token = createToken({email, password})
         res.cookie('token', access_token, {httpOnly: true, sameSite: 'strict'});
-        res.cookie('role', role,{sameSite: 'strict'});
-        res.status(200).json({access_token, role})
+        res.cookie('loggedUser', {access_token, role, email}, {sameSite: 'strict'});
+        res.status(200).json({access_token, role, email})
     }
 
 })

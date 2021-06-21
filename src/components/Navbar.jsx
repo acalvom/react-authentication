@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 
 const Navbar = (props) => {
     const role = props.role;
+    const isLogged = props.isLogged;
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -19,25 +20,24 @@ const Navbar = (props) => {
                         </li>
                         {role === 'admin' && (
                             <li className="nav-item active">
-                                <Link to="/" className="nav-link">Admin Board</Link>
+                                <Link to="/adminboard" className="nav-link">Admin Board</Link>
                             </li>)
                         }
                         {role === 'user' && (
                             <li className="nav-item active">
-                                <Link to="/" className="nav-link">User Board</Link>
+                                <Link to="/userboard" className="nav-link">User Board</Link>
                             </li>)
                         }
                     </ul>
                     <ul className="navbar-nav ms-auto">
-                        <li className="nav-item active">
-                            <Link to="/" className="nav-link">Sign Up</Link>
-                        </li>
-                        <li className="nav-item active">
+                        {!isLogged && (<li className="nav-item active">
                             <Link to="/signin" className="nav-link">Sign In</Link>
-                        </li>
-                        <li className="nav-item active">
+                        </li>)
+                        }
+                        {isLogged && (<li className="nav-item active">
                             <Link to="/" className="nav-link">Log Out</Link>
-                        </li>
+                        </li>)
+                        }
                     </ul>
                 </div>
             </div>

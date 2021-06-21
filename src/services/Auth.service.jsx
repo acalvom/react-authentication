@@ -9,7 +9,7 @@ const signIn = async (data) => {
 }
 
 const getCurrentUser = () => {
-    return cookies.get("role");
+    return cookies.get("loggedUser");
 };
 
 const auth = {
