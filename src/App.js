@@ -1,20 +1,23 @@
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import SignIn from "./components/SignIn";
 import AdminBoard from "./components/AdminBoard";
+import AuthService from "./services/Auth.service";
 
 function App() {
     const [isLogged, setIsLogged] = useState(false);
     const [loggedUser, setLoggedUser] = useState(null);
 
-
-    const checkLogin = (isLogged, loggedUser) => {
+    const checkLogin = (isLogged) => {
         setIsLogged(isLogged);
-        setLoggedUser(loggedUser);
     }
+
+    useEffect(() => {
+        setLoggedUser(AuthService.getCurrentUser());
+    }, [loggedUser])
 
     return (
         <Router>
