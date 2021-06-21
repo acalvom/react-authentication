@@ -29,15 +29,16 @@ const Navbar = (props) => {
                         }
                     </ul>
                     <ul className="navbar-nav ms-auto">
-                        <li className="nav-item active">
-                            <Link to="/" className="nav-link">Sign Up</Link>
-                        </li>
-                        <li className="nav-item active">
+                        {!role && (<li className="nav-item active">
                             <Link to="/signin" className="nav-link">Sign In</Link>
-                        </li>
-                        <li className="nav-item active">
+                        </li>)
+                        }
+                        {role && (<li className="nav-item active">
                             <Link to="/" className="nav-link">Log Out</Link>
-                        </li>
+                        </li>)
+                        }
+
+
                     </ul>
                 </div>
             </div>
