@@ -1,7 +1,9 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = (props) => {
+    const role = props.role;
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -15,22 +17,26 @@ const Navbar = () => {
                         <li className="nav-item">
                             <Link to="/" className="nav-link active">Home</Link>
                         </li>
-                        <li className="nav-item active">
-                            <a className="nav-link" aria-current="page" href="#">Admin Board</a>
-                        </li>
-                        <li className="nav-item active">
-                            <a className="nav-link" aria-current="page" href="#">User Board</a>
-                        </li>
+                        {role === 'admin' && (
+                            <li className="nav-item active">
+                                <Link to="/" className="nav-link">Admin Board</Link>
+                            </li>)
+                        }
+                        {role === 'user' && (
+                            <li className="nav-item active">
+                                <Link to="/" className="nav-link">User Board</Link>
+                            </li>)
+                        }
                     </ul>
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item active">
-                            <a className="nav-link" aria-current="page" href="#">Sign Up</a>
+                            <Link to="/" className="nav-link">Sign Up</Link>
                         </li>
                         <li className="nav-item active">
                             <Link to="/signin" className="nav-link">Sign In</Link>
                         </li>
                         <li className="nav-item active">
-                            <a className="nav-link" aria-current="page" href="#">Log Out</a>
+                            <Link to="/" className="nav-link">Log Out</Link>
                         </li>
                     </ul>
                 </div>
