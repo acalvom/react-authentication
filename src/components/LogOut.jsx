@@ -1,17 +1,16 @@
-import React from 'react';
+import {useEffect} from 'react';
+import {useHistory} from "react-router-dom";
 
 const LogOut = (props) => {
 
-    const handleRemoveCookie = () => {
+    const history = useHistory();
+
+    useEffect(() => {
         props.checkLogout();
-    }
+        history.push('/');
+    })
 
-    return (
-        <div>
-            <button onClick={handleRemoveCookie}>Remove Cookie</button>
-        </div>
-    );
+    return null;
 };
-
 
 export default LogOut;
