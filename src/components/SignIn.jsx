@@ -11,9 +11,9 @@ const SignIn = (props) => {
 
     const signIn = async (data) => {
         try {
-            await AuthService.signIn(data)
+            const res = await AuthService.signIn(data);
             setFetchError(null);
-            props.isLogged(true);
+            props.checkLogin(true, res.data);
             history.push('/');
         } catch (err) {
             setFetchError(err.response.data.message);
