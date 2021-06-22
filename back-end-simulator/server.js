@@ -2,11 +2,11 @@ const bodyParser = require('body-parser');
 const jsonServer = require('json-server');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session')
 const cors = require('cors');
 const userDB = require('./db.json');
 
 const server = jsonServer.create();
-
 
 const port = 8000;
 const SECRET_KEY = '123456789'
@@ -20,8 +20,9 @@ server.use(
     })
 );
 
-server.use(bodyParser.urlencoded({extended: true}))
-server.use(bodyParser.json())
+server.use(cookieParser('secret'));
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
 server.use(jsonServer.defaults());
 
 function createToken(payload) {
@@ -29,6 +30,7 @@ function createToken(payload) {
 }
 
 function isAuthenticated({email, password}) {
+    console.log(email, password)
     return userDB.users.findIndex(user => user.email === email && user.password === password) !== -1
 }
 
@@ -37,7 +39,12 @@ function getRole(email) {
 }
 
 server.post('/signin', (req, res) => {
-    const {email, password} = req.body
+    const {email, password} = req.body;
+    const options = {
+        signed: true,
+        httpOnly: true,
+        sameSite: 'strict'
+    }
 
     if (!isAuthenticated({email, password})) {
         const status = 401
@@ -49,7 +56,8 @@ server.post('/signin', (req, res) => {
         // res.cookie('token', access_token, {httpOnly: true, sameSite: 'strict'});
         res.cookie('token', access_token, {sameSite: 'strict'});
         res.cookie('loggedUser', {access_token, role, email}, {sameSite: 'strict'});
-        res.status(200).json({access_token, role, email})
+        res.cookie('user', {access_token, role, email}, options).send({role: role, status: 200});
+        // res.status(200).json({access_token, role, email})
     }
 
 })
