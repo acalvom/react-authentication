@@ -11,10 +11,11 @@ const SignIn = (props) => {
 
     const signIn = async (data) => {
         try {
-            const res = await AuthService.signIn(data);
+            await AuthService.signIn(data);
             setFetchError(null);
-            props.checkLogin(true, res.data);
+            // props.checkLogin();
             history.push('/');
+            history.go(0);  // To refresh the page
         } catch (err) {
             setFetchError(err.response.data.message);
         }

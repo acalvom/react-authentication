@@ -1,20 +1,27 @@
 const bodyParser = require('body-parser');
 const jsonServer = require('json-server');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const userDB = require('./db.json');
 
 const server = jsonServer.create();
-const port = 8000;
 
-server.use(jsonServer.defaults());
+const port = 8000;
 const SECRET_KEY = '123456789'
 const expiresIn = '1h'
 
-server.options('*', cors());
-server.use(cors());
-server.use(bodyParser.urlencoded({extended: true}))
-server.use(bodyParser.json())
+server.use(
+    cors({
+        origin: ["http://localhost:3000"],
+        methods: ["GET", "POST"],
+        credentials: true,
+    })
+);
+
+server.use(cookieParser('secret'));
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
 server.use(jsonServer.defaults());
 
 function createToken(payload) {
@@ -22,6 +29,7 @@ function createToken(payload) {
 }
 
 function isAuthenticated({email, password}) {
+    console.log(email, password)
     return userDB.users.findIndex(user => user.email === email && user.password === password) !== -1
 }
 
@@ -29,8 +37,21 @@ function getRole(email) {
     return userDB.users.find(user => user.email === email).role;
 }
 
+server.get("/signin", (req, res) => {
+    if (req.signedCookies.user) {
+        res.send({loggedIn: true, user: req.signedCookies.user });
+    } else {
+        res.send({ loggedIn: false });
+    }
+});
+
 server.post('/signin', (req, res) => {
-    const {email, password} = req.body
+    const {email, password} = req.body;
+    const options = {
+        signed: true,
+        httpOnly: true,
+        sameSite: 'strict'
+    }
 
     if (!isAuthenticated({email, password})) {
         const status = 401
@@ -39,10 +60,9 @@ server.post('/signin', (req, res) => {
     } else {
         const role = getRole(email);
         const access_token = createToken({email, password})
-        // res.cookie('token', access_token, {httpOnly: true, sameSite: 'strict'});
         res.cookie('token', access_token, {sameSite: 'strict'});
         res.cookie('loggedUser', {access_token, role, email}, {sameSite: 'strict'});
-        res.status(200).json({access_token, role, email})
+        res.cookie('user', {access_token, role, email}, options).send({role: role, status: 200});
     }
 
 })

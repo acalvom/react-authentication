@@ -4,8 +4,14 @@ import {Cookies} from "react-cookie";
 const API_URL = "http://localhost:8000/signin";
 const cookies = new Cookies();
 
+axios.defaults.withCredentials = true; // For httpOnly
+
 const signIn = async (data) => {
-    return await axios.post(API_URL, data, {withCredentials: true}); // For httpOnly
+    return await axios.post(API_URL, data);
+}
+
+const checkSignIn = async () => {
+    return await axios.get(API_URL);
 }
 
 const logOut = () => {
@@ -19,6 +25,7 @@ const getCurrentUser = () => {
 
 const auth = {
     signIn,
+    checkSignIn,
     logOut,
     getCurrentUser
 };
