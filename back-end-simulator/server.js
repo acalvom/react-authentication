@@ -46,6 +46,8 @@ server.post('/signin', (req, res) => {
         sameSite: 'strict'
     }
 
+    console.log(req.signedCookies.user);
+
     if (!isAuthenticated({email, password})) {
         const status = 401
         const message = 'Incorrect email or password'
