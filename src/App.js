@@ -7,15 +7,11 @@ import SignIn from "./components/SignIn";
 import AdminBoard from "./components/AdminBoard";
 import AuthService from "./services/Auth.service";
 import UserBoard from "./components/UserBoard";
-import {useCookies} from "react-cookie";
 import LogOut from "./components/LogOut";
 
 function App() {
     const [loggedUser, setLoggedUser] = useState(null);
-    const [cookies] = useCookies(["loggedUser"]);
-    const [isLogged, setIsLogged] = useState(false);
     const [role, setRole] = useState("");
-
 
     const checkLogin = () => {
         AuthService.checkSignIn().then((response) => {
@@ -47,7 +43,8 @@ function App() {
                     <Route exact path="/"><Home/></Route>
                     <Route path="/adminboard"><AdminBoard loggedUser={loggedUser}/></Route>
                     <Route path="/userboard"><UserBoard loggedUser={loggedUser}/></Route>
-                    <Route path="/signin"><SignIn checkLogin={checkLogin}/></Route>
+                    {/*<Route path="/signin"><SignIn checkLogin={checkLogin}/></Route>*/}
+                    <Route path="/signin"><SignIn/></Route>
                     <Route path="/logout"><LogOut checkLogout={checkLogout}/></Route>
                     <Route path="/*"><NotFound/></Route>
                 </Switch>
