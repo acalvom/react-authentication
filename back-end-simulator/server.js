@@ -1,18 +1,25 @@
 const bodyParser = require('body-parser');
 const jsonServer = require('json-server');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const userDB = require('./db.json');
 
 const server = jsonServer.create();
-const port = 8000;
 
-server.use(jsonServer.defaults());
+
+const port = 8000;
 const SECRET_KEY = '123456789'
 const expiresIn = '1h'
 
-server.options('*', cors());
-server.use(cors());
+server.use(
+    cors({
+        origin: ["http://localhost:3000"],
+        methods: ["GET", "POST"],
+        credentials: true,
+    })
+);
+
 server.use(bodyParser.urlencoded({extended: true}))
 server.use(bodyParser.json())
 server.use(jsonServer.defaults());
