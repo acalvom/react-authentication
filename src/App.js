@@ -13,9 +13,21 @@ import LogOut from "./components/LogOut";
 function App() {
     const [loggedUser, setLoggedUser] = useState(null);
     const [cookies] = useCookies(["loggedUser"]);
+    const [isLogged, setIsLogged] = useState(false);
+    const [role, setRole] = useState("");
+
 
     const checkLogin = () => {
-        setLoggedUser(AuthService.getCurrentUser());
+        AuthService.checkSignIn().then((response) => {
+            // console.log(response)
+            if (response.data.loggedIn === true) {
+                setRole(response.data.user.role);
+                setLoggedUser(response.data.user);
+            } else {
+                setRole("");
+                setLoggedUser(null);
+            }
+        });
     }
 
     const checkLogout = () => {
@@ -24,12 +36,12 @@ function App() {
     }
 
     useEffect(() => {
-        setLoggedUser(cookies.loggedUser)
-    }, [cookies.loggedUser])
+        checkLogin();
+    }, []);
 
     return (
         <Router>
-            <Navbar role={loggedUser && loggedUser.role}/>
+            <Navbar role={role}/>
             <div className="container my-3">
                 <Switch>
                     <Route exact path="/"><Home/></Route>

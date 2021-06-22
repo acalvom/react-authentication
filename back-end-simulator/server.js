@@ -2,7 +2,6 @@ const bodyParser = require('body-parser');
 const jsonServer = require('json-server');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const cookieSession = require('cookie-session')
 const cors = require('cors');
 const userDB = require('./db.json');
 
@@ -38,6 +37,14 @@ function getRole(email) {
     return userDB.users.find(user => user.email === email).role;
 }
 
+server.get("/signin", (req, res) => {
+    if (req.signedCookies.user) {
+        res.send({loggedIn: true, user: req.signedCookies.user });
+    } else {
+        res.send({ loggedIn: false });
+    }
+});
+
 server.post('/signin', (req, res) => {
     const {email, password} = req.body;
     const options = {
@@ -46,8 +53,6 @@ server.post('/signin', (req, res) => {
         sameSite: 'strict'
     }
 
-    console.log(req.signedCookies.user);
-
     if (!isAuthenticated({email, password})) {
         const status = 401
         const message = 'Incorrect email or password'
@@ -55,11 +60,9 @@ server.post('/signin', (req, res) => {
     } else {
         const role = getRole(email);
         const access_token = createToken({email, password})
-        // res.cookie('token', access_token, {httpOnly: true, sameSite: 'strict'});
         res.cookie('token', access_token, {sameSite: 'strict'});
         res.cookie('loggedUser', {access_token, role, email}, {sameSite: 'strict'});
         res.cookie('user', {access_token, role, email}, options).send({role: role, status: 200});
-        // res.status(200).json({access_token, role, email})
     }
 
 })
