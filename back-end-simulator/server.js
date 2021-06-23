@@ -20,7 +20,7 @@ server.use(
 );
 
 server.use(cookieParser('secret'));
-server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
 server.use(jsonServer.defaults());
 
@@ -39,9 +39,9 @@ function getRole(email) {
 
 server.get("/signin", (req, res) => {
     if (req.signedCookies.user) {
-        res.send({loggedIn: true, user: req.signedCookies.user });
+        res.send({loggedIn: true, user: req.signedCookies.user});
     } else {
-        res.send({ loggedIn: false });
+        res.send({loggedIn: false});
     }
 });
 
@@ -60,12 +60,14 @@ server.post('/signin', (req, res) => {
     } else {
         const role = getRole(email);
         const access_token = createToken({email, password})
-        res.cookie('token', access_token, {sameSite: 'strict'});
-        res.cookie('loggedUser', {access_token, role, email}, {sameSite: 'strict'});
         res.cookie('user', {access_token, role, email}, options).send({role: role, status: 200});
     }
 
-})
+});
+
+server.get('/logout', (req, res) => {
+    res.clearCookie('user').end();
+});
 
 server.listen(port, () => {
     console.log("Node Server at http://localhost:" + port);

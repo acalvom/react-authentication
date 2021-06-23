@@ -15,7 +15,6 @@ function App() {
 
     const checkLogin = () => {
         AuthService.checkSignIn().then((response) => {
-            // console.log(response)
             if (response.data.loggedIn === true) {
                 setRole(response.data.user.role);
                 setLoggedUser(response.data.user);
@@ -24,11 +23,6 @@ function App() {
                 setLoggedUser(null);
             }
         });
-    }
-
-    const checkLogout = () => {
-        AuthService.logOut();
-        setLoggedUser(AuthService.getCurrentUser());
     }
 
     useEffect(() => {
@@ -45,7 +39,7 @@ function App() {
                     <Route path="/userboard"><UserBoard loggedUser={loggedUser}/></Route>
                     {/*<Route path="/signin"><SignIn checkLogin={checkLogin}/></Route>*/}
                     <Route path="/signin"><SignIn/></Route>
-                    <Route path="/logout"><LogOut checkLogout={checkLogout}/></Route>
+                    <Route path="/logout"><LogOut/></Route>
                     <Route path="/*"><NotFound/></Route>
                 </Switch>
             </div>
