@@ -1,33 +1,25 @@
 import axios from "axios";
-import {Cookies} from "react-cookie";
 
-const API_URL = "http://localhost:8000/signin";
-const cookies = new Cookies();
+const API_URL = "http://localhost:8000";
 
 axios.defaults.withCredentials = true; // For httpOnly
 
 const signIn = async (data) => {
-    return await axios.post(API_URL, data);
+    return await axios.post(API_URL + '/signin', data);
 }
 
 const checkSignIn = async () => {
-    return await axios.get(API_URL);
+    return await axios.get(API_URL + '/signin');
 }
 
-const logOut = () => {
-    cookies.remove("loggedUser", {sameSite: 'strict'});
-    cookies.remove("token", {sameSite: 'strict'});
-};
-
-const getCurrentUser = () => {
-    return cookies.get("loggedUser");
+const logOut = async () => {
+    return await axios.get(API_URL + "/logout");
 };
 
 const auth = {
     signIn,
     checkSignIn,
-    logOut,
-    getCurrentUser
+    logOut
 };
 
 export default auth;
